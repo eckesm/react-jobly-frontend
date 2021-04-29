@@ -8,8 +8,8 @@ const CompaniesList = () => {
 
 	useEffect(() => {
 		async function getAllCompanies() {
-			// let allCompanies = await JoblyApi.getCompanies();
-			let allCompanies = await JoblyApi.getCompany('bauer-gallagher');
+			let allCompanies = await JoblyApi.getCompanies();
+			// let allCompanies = await JoblyApi.getCompany('bauer-gallagher');
 			setCompanies(allCompanies);
 			console.log('allCompanies', allCompanies);
 			console.log('companies', companies);
@@ -22,7 +22,7 @@ const CompaniesList = () => {
 	return (
 		<div>
 			<h1>Companies</h1>
-			<p>{companies}</p>
+			{/* <p>{companies}</p> */}
 		</div>
 	);
 };
