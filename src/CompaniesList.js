@@ -4,25 +4,37 @@ import CompanyCard from './CompanyCard';
 import JoblyApi from './api';
 
 const CompaniesList = () => {
+	const [ isLoading, setIsLoading ] = useState(true);
 	const [ companies, setCompanies ] = useState([]);
 
 	useEffect(() => {
 		async function getAllCompanies() {
-			let allCompanies = await JoblyApi.getCompanies();
-			// let allCompanies = await JoblyApi.getCompany('bauer-gallagher');
-			setCompanies(allCompanies);
-			console.log('allCompanies', allCompanies);
-			console.log('companies', companies);
+			let companies = await JoblyApi.getCompanies();
+			setCompanies(companies);
+			setIsLoading(false);
+			console.log(companies)
 		}
 		getAllCompanies();
 	}, []);
 	
-	// console.log({ companies });
-	
+	if (isLoading) {
+		return <p>Loading...</p>;
+	}
+
 	return (
 		<div>
 			<h1>Companies</h1>
-			{/* <p>{companies}</p> */}
+			<div>
+				{companies.map(company => (
+					<CompanyCard
+						key={company.handle}
+						handle={company.handle}
+						name={company.name}
+						description={company.description}
+						logoUrl={company.logoUrl}
+					/>
+				))}
+			</div>
 		</div>
 	);
 };
