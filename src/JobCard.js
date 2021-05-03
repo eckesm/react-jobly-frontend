@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardSubtitle, CardTitle, List } from 'reactstrap';
+import ApplyButton from './ApplyButton';
 
-const JobCard = ({ id, title, companyHandle, companyName, equity, salary }) => {
+const JobCard = ({ id, title, companyHandle, companyName, equity, salary,isApplied,applyToJob }) => {	
+
 	return (
 		<Card>
 			<CardBody>
@@ -16,6 +18,7 @@ const JobCard = ({ id, title, companyHandle, companyName, equity, salary }) => {
 					<li>Salary: {salary}</li>
 					<li>Equity: {equity}</li>
 				</List>
+				<ApplyButton isApplied={isApplied} applyToJob={applyToJob} jobId={id} />
 			</CardBody>
 		</Card>
 	);

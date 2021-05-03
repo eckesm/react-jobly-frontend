@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import JoblyApi from './api';
+import { Redirect } from 'react-router-dom';
+import { Button, Form, FormGroup, Label, Input, ListGroup, ListGroupItem } from 'reactstrap';
+import './SignupForm.css';
 
-const SignupForm = () => {
+const SignupForm = ({signupUser}) => {
 	const initialState = {
 		username  : '',
 		password  : '',
@@ -11,6 +12,8 @@ const SignupForm = () => {
 		email     : ''
 	};
 	const [ formData, setFormData ] = useState(initialState);
+	const [ errorMessages, setErrorMessages ] = useState(null);
+	const [ isLoggedIn, setIsLoggedIn ] = useState(null);
 	const handleChange = e => {
 		const { name, value } = e.target;
 		setFormData(data => ({
@@ -20,26 +23,44 @@ const SignupForm = () => {
 	};
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let token = await JoblyApi.registerUser(
-			formData.username,
+		let res=await signupUser(formData.username,
 			formData.password,
 			formData.firstName,
 			formData.lastName,
-			formData.email
-		);
-		console.log(token);
+			formData.email)
+		if (res.status === 'success') {
+			setErrorMessages(null);
+			setFormData(initialState);
+			setIsLoggedIn(true);
+		}
+		else {
+			setErrorMessages(res.messages);
+		}
 	}
 
+	if (isLoggedIn) {
+		return <Redirect to="/" />;
+	}
 	return (
-		<Form onSubmit={handleSubmit}>
-			<h1>Login</h1>
-			<FormGroup>
-				<Label for="username">Username</Label>
-				<Input type="text" name="username" id="username" value={formData.username} onChange={handleChange} />
+		<Form className="SignupForm" onSubmit={handleSubmit}>
+			<h1>Signup</h1>
+			{errorMessages && (
+				<ListGroup>
+					{errorMessages.map((error, i) => (
+						<ListGroupItem key={i} className="SignupForm-errorMessage">
+							{error}
+						</ListGroupItem>
+					))}
+				</ListGroup>
+			)}
+			<FormGroup className="SignupForm-formGroup">
+				<Label className="SignupForm-label" for="username">Username</Label>
+				<Input className="SignupForm-input" type="text" name="username" id="username" value={formData.username} onChange={handleChange} />
 			</FormGroup>
-			<FormGroup>
-				<Label for="password">Password</Label>
+			<FormGroup className="SignupForm-formGroup">
+				<Label className="SignupForm-label" for="password">Password</Label>
 				<Input
+					className="SignupForm-input"
 					type="password"
 					name="password"
 					id="password"
@@ -47,17 +68,17 @@ const SignupForm = () => {
 					onChange={handleChange}
 				/>
 			</FormGroup>
-			<FormGroup>
-				<Label for="firstName">First name</Label>
-				<Input type="text" name="firstName" id="firstName" value={formData.firstName} onChange={handleChange} />
+			<FormGroup className="SignupForm-formGroup">
+				<Label className="SignupForm-label" for="firstName">First name</Label>
+				<Input className="SignupForm-input" type="text" name="firstName" id="firstName" value={formData.firstName} onChange={handleChange} />
 			</FormGroup>
-			<FormGroup>
-				<Label for="lastName">Last name</Label>
-				<Input type="text" name="lastName" id="lastName" value={formData.lastName} onChange={handleChange} />
+			<FormGroup className="SignupForm-formGroup">
+				<Label className="SignupForm-label" for="lastName">Last name</Label>
+				<Input className="SignupForm-input" type="text" name="lastName" id="lastName" value={formData.lastName} onChange={handleChange} />
 			</FormGroup>
-			<FormGroup>
-				<Label for="email">Email</Label>
-				<Input type="text" name="email" id="email" value={formData.email} onChange={handleChange} />
+			<FormGroup className="SignupForm-formGroup">
+				<Label className="SignupForm-label" for="email">Email</Label>
+				<Input className="SignupForm-input" type="text" name="email" id="email" value={formData.email} onChange={handleChange} />
 			</FormGroup>
 			<Button>Submit</Button>
 		</Form>

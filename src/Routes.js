@@ -10,8 +10,9 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import Profile from './Profile';
 
-const Routes = ({ loginUser, logoutUser }) => {
+const Routes = ({ loginUser, signupUser }) => {
 	const currentUser = useContext(CurrentUserContext);
+
 	return (
 		<Switch>
 			<Route exact path="/">
@@ -38,7 +39,7 @@ const Routes = ({ loginUser, logoutUser }) => {
 				<LoginForm loginUser={loginUser} />
 			</Route>
 			<Route exact path="/signup">
-				<SignupForm />
+				<SignupForm signupUser={signupUser} />
 			</Route>
 			<Route exact path="/profile">
 				{currentUser ? (

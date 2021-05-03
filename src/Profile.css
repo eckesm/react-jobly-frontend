@@ -1,4 +1,4 @@
-.LoginForm {
+.Profile {
 	width: fit-content;
 	margin-top: 25px;
 	margin-left: auto;
@@ -9,18 +9,22 @@
 	border-radius: 1%;
 }
 
-.LoginForm-formGroup {
+.Profile-formGroup {
 	text-align: left;
 }
-.LoginForm-label {
+.Profile-label {
 	margin: 0px;
 }
 
-.LoginForm-input {
+.Profile-input {
 	margin: 0px;
 }
 
-.LoginForm-errorMessage {
+.Profile-errorMessage {
 	color: red;
 	font-style: italic;
+}
+
+.Profile-successMessage {
+	font-weight: bold;
 }

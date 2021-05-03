@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {useHistory} from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import useLocalStorageState from './hooks/useLocalStorageState';
 import Navbar from './Navbar';
 import Routes from './Routes';
@@ -10,13 +10,16 @@ import './App.css';
 function App() {
 	const [ token, setToken ] = useLocalStorageState('token', '');
 	const [ username, setUsername ] = useLocalStorageState('username', '');
+	// const [ username, setUsername ] = useState(null);
 	const history = useHistory();
 	const [ currentUser, setCurrentUser ] = useState(null);
 
 	async function loginUser(username, password) {
-		setUsername(username);
 		let res = await JoblyApi.loginUser(username, password);
-		if (res.status === 'success') setToken(res.token);
+		if (res.status === 'success'){
+			setUsername(username);
+			setToken(res.token);
+		}
 		return res;
 	}
 
@@ -26,6 +29,15 @@ function App() {
 		setCurrentUser(null);
 		history.push('/');
 	};
+
+	async function signupUser(username, password, firstName, lastName, email) {
+		let res = await JoblyApi.registerUser(username, password, firstName, lastName, email);
+		if (res.status === 'success'){
+			setUsername(username);
+			setToken(res.token);
+		}
+		return res;
+	}
 
 	useEffect(
 		() => {
@@ -45,7 +57,7 @@ function App() {
 		<div className="App">
 			<CurrentUserContext.Provider value={currentUser}>
 				<Navbar logoutUser={logoutUser} />
-				<Routes loginUser={loginUser} logoutUser={logoutUser} />
+				<Routes loginUser={loginUser} signupUser={signupUser} />
 			</CurrentUserContext.Provider>
 		</div>
 	);

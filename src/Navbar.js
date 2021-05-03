@@ -6,12 +6,7 @@ import {
 	NavbarBrand,
 	Nav,
 	NavItem,
-	NavLink,
-	UncontrolledDropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	NavbarText
+	NavLink
 } from 'reactstrap';
 import CurrentUserContext from './CurrentUserContext';
 import './Navbar.css';
@@ -23,7 +18,7 @@ const JoblyNavbar = ({ logoutUser }) => {
 
 	return (
 		<div>
-			<Navbar color="light" light expand="md">
+			<Navbar color="dark" dark expand="md">
 				<NavbarBrand href="/">Jobly</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
@@ -55,7 +50,7 @@ const JoblyNavbar = ({ logoutUser }) => {
 					<Nav className="ml-auto" navbar>
 						{currentUser && (
 							<NavItem className="Navbar-logoutButton">
-								<NavLink onClick={logoutUser}>Logout</NavLink>
+								<NavLink onClick={logoutUser}>Logout {currentUser.username}</NavLink>
 							</NavItem>
 						)}
 						{!currentUser && (

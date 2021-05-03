@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Spinner } from 'reactstrap';
 import CompanySearch from './CompanySearch';
 import CompanyCard from './CompanyCard';
 import JoblyApi from './api';
+import './CompaniesList.css'
 
 const CompaniesList = () => {
 	const [ isLoading, setIsLoading ] = useState(true);
@@ -24,13 +26,14 @@ const CompaniesList = () => {
 	}
 
 	if (isLoading) {
-		return <p>Loading...</p>;
+		// return <p>Loading...</p>;
+		return <Spinner color='light' />
 	}
 
 	return (
-		<div>
-			<CompanySearch searchCompanies={searchCompanies} />
+		<div className='CompaniesList'>
 			<h1>Companies</h1>
+			<CompanySearch searchCompanies={searchCompanies} />
 			<div>
 				{companies.map(company => (
 					<CompanyCard
@@ -47,7 +50,3 @@ const CompaniesList = () => {
 };
 
 export default CompaniesList;
-
-// CompaniesList.defaultProps = {
-// 	companies : JoblyApi.getCompanies()
-// };

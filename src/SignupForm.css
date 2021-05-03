@@ -1,4 +1,4 @@
-.LoginForm {
+.SignupForm {
 	width: fit-content;
 	margin-top: 25px;
 	margin-left: auto;
@@ -9,18 +9,18 @@
 	border-radius: 1%;
 }
 
-.LoginForm-formGroup {
+.SignupForm-formGroup {
 	text-align: left;
 }
-.LoginForm-label {
+.SignupForm-label {
 	margin: 0px;
 }
 
-.LoginForm-input {
+.SignupForm-input {
 	margin: 0px;
 }
 
-.LoginForm-errorMessage {
+.SignupForm-errorMessage {
 	color: red;
 	font-style: italic;
 }
