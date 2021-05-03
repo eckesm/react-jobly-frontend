@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	Collapse,
 	Navbar,
@@ -13,10 +13,13 @@ import {
 	DropdownItem,
 	NavbarText
 } from 'reactstrap';
+import CurrentUserContext from './CurrentUserContext';
+import './Navbar.css';
 
-const JoblyNavbar = props => {
+const JoblyNavbar = ({ logoutUser }) => {
 	const [ isOpen, setIsOpen ] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
+	const currentUser = useContext(CurrentUserContext);
 
 	return (
 		<div>
@@ -28,23 +31,39 @@ const JoblyNavbar = props => {
 						<NavItem>
 							<NavLink href="/">Home</NavLink>
 						</NavItem>
-						<NavItem>
-							<NavLink href="/companies">Companies</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="/jobs">Jobs</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="/login">Login</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="/signup">Signup</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="/profile">Profile</NavLink>
-						</NavItem>
+						{!currentUser && (
+							<NavItem>
+								<NavLink href="/signup">Signup</NavLink>
+							</NavItem>
+						)}
+						{currentUser && (
+							<NavItem>
+								<NavLink href="/companies">Companies</NavLink>
+							</NavItem>
+						)}
+						{currentUser && (
+							<NavItem>
+								<NavLink href="/jobs">Jobs</NavLink>
+							</NavItem>
+						)}
+						{currentUser && (
+							<NavItem>
+								<NavLink href="/profile">Profile</NavLink>
+							</NavItem>
+						)}
 					</Nav>
-					{/* <NavbarText>Simple Text</NavbarText> */}
+					<Nav className="ml-auto" navbar>
+						{currentUser && (
+							<NavItem className="Navbar-logoutButton">
+								<NavLink onClick={logoutUser}>Logout</NavLink>
+							</NavItem>
+						)}
+						{!currentUser && (
+							<NavItem>
+								<NavLink href="/login">Login</NavLink>
+							</NavItem>
+						)}
+					</Nav>
 				</Collapse>
 			</Navbar>
 		</div>

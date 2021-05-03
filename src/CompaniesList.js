@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Container, Jumbotron } from 'reactstrap';
+import CompanySearch from './CompanySearch';
 import CompanyCard from './CompanyCard';
 import JoblyApi from './api';
 
@@ -12,17 +12,24 @@ const CompaniesList = () => {
 			let companies = await JoblyApi.getCompanies();
 			setCompanies(companies);
 			setIsLoading(false);
-			console.log(companies)
 		}
 		getAllCompanies();
 	}, []);
-	
+
+	async function searchCompanies(name) {
+		setIsLoading(true);
+		let companies = await JoblyApi.getCompaniesName(name);
+		setCompanies(companies);
+		setIsLoading(false);
+	}
+
 	if (isLoading) {
 		return <p>Loading...</p>;
 	}
 
 	return (
 		<div>
+			<CompanySearch searchCompanies={searchCompanies} />
 			<h1>Companies</h1>
 			<div>
 				{companies.map(company => (

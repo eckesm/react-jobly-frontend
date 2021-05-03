@@ -40,6 +40,12 @@ class JoblyApi {
 		return res.companies;
 	}
 
+	/** Get list of all companies matching search criteria. */
+	static async getCompaniesName(name) {
+		let res = await this.request('companies', { name });
+		return res.companies;
+	}
+
 	/** Get details on a company by handle. */
 	static async getCompany(handle) {
 		let res = await this.request(`companies/${handle}`);
@@ -51,12 +57,49 @@ class JoblyApi {
 		let res = await this.request('jobs');
 		return res.jobs;
 	}
+
+	/** Get list of all jobs matching search criteria. */
+	static async getJobsName(title) {
+		let res = await this.request('jobs', { title });
+		return res.jobs;
+	}
+
+	/** Attempt login user. */
+	static async loginUser(username, password) {
+		try {
+			let res = await this.request('auth/token', { username, password }, 'post');
+			// console.log('res', res);
+			// return res.token;
+			return {
+				status : 'success',
+				token  : res.token
+			};
+		} catch (e) {
+			// console.log('FAILED', e);
+			return {
+				status  : 'error',
+				message : e[0]
+			};
+		}
+	}
+
+	/** Attempt register user. */
+	static async registerUser(username, password, firstName, lastName, email) {
+		let res = await this.request('auth/register', { username, password, firstName, lastName, email }, 'post');
+		return res.token;
+	}
+
+	/** Get user information. */
+	static async getUser(username) {
+		let res = await this.request(`users/${username}`);
+		return res.user;
+	}
 }
 
 // for now, put token ("testuser" / "password" on class)
-JoblyApi.token =
-	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ' +
-	'SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0.' +
-	'FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc';
+// JoblyApi.token =
+// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ' +
+// 	'SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0.' +
+// 	'FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc';
 
 export default JoblyApi;

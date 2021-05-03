@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardSubtitle, CardText, CardTitle, List } from 'reactstrap';
+import { Card, CardBody, CardSubtitle, CardTitle, List } from 'reactstrap';
 
 const JobCard = ({ id, title, companyHandle, companyName, equity, salary }) => {
 	return (
@@ -12,12 +12,10 @@ const JobCard = ({ id, title, companyHandle, companyName, equity, salary }) => {
 						{companyName}
 					</CardSubtitle>
 				</Link>
-				<CardText>
-					<List type="unstyled">
-						<li>Salary: {salary}</li>
-						<li>Equity: {equity}</li>
-					</List>
-				</CardText>
+				<List type="unstyled">
+					<li>Salary: {salary}</li>
+					<li>Equity: {equity}</li>
+				</List>
 			</CardBody>
 		</Card>
 	);

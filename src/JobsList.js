@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import JobSearch from './JobSearch';
 import JobCard from './JobCard';
 import JoblyApi from './api';
 
@@ -9,20 +10,26 @@ const JobsList = ({ companyHandle }) => {
 	useEffect(() => {
 		async function getAllJobs() {
 			let jobs = await JoblyApi.getJobs();
-			
-            if (companyHandle === null){
-                setJobs(jobs);
-            } else {
-                let filteredJobs=jobs.filter(job=>job.companyHandle===companyHandle)
-                setJobs(filteredJobs)
-            }
-            
-            
+
+			if (companyHandle === null) {
+				setJobs(jobs);
+			}
+			else {
+				let filteredJobs = jobs.filter(job => job.companyHandle === companyHandle);
+				setJobs(filteredJobs);
+			}
 			setIsLoading(false);
-			console.log(jobs);
+			// console.log(jobs);
 		}
 		getAllJobs();
 	}, []);
+
+	async function searchJobs(title) {
+		setIsLoading(true);
+		let jobs = await JoblyApi.getJobsName(title);
+		setJobs(jobs);
+		setIsLoading(false);
+	}
 
 	if (isLoading) {
 		return <p>Loading...</p>;
@@ -30,6 +37,7 @@ const JobsList = ({ companyHandle }) => {
 
 	return (
 		<div>
+			<JobSearch searchJobs={searchJobs} />
 			<h1>Jobs</h1>
 			<div>
 				{jobs.map(job => (

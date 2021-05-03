@@ -1,37 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import CurrentUserContext from './CurrentUserContext';
+import RestrictedAccess from './RestrictedAccess';
 import Home from './Home';
 import CompaniesList from './CompaniesList';
 import CompanyDetail from './CompanyDetail';
 import JobsList from './JobsList';
-import Login from './Login';
-import Signup from './Signup';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 import Profile from './Profile';
 
-const Routes = () => {
+const Routes = ({ loginUser, logoutUser }) => {
+	const currentUser = useContext(CurrentUserContext);
 	return (
 		<Switch>
 			<Route exact path="/">
 				<Home />
 			</Route>
 			<Route exact path="/companies">
-				<CompaniesList />
+				{currentUser ? (
+					<CompaniesList />
+				) : (
+					<RestrictedAccess notice="You must be logged in to view companies." />
+				)}
 			</Route>
 			<Route exact path="/companies/:handle">
-				<CompanyDetail />
+				{currentUser ? (
+					<CompanyDetail />
+				) : (
+					<RestrictedAccess notice="You must be logged in to view details about a company." />
+				)}
 			</Route>
 			<Route exact path="/jobs">
-				<JobsList />
+				{currentUser ? <JobsList /> : <RestrictedAccess notice="You must be logged in to view jobs." />}
 			</Route>
 			<Route exact path="/login">
-				<Login />
+				<LoginForm loginUser={loginUser} />
 			</Route>
 			<Route exact path="/signup">
-				<Signup />
+				<SignupForm />
 			</Route>
 			<Route exact path="/profile">
-				<Profile />
+				{currentUser ? (
+					<Profile />
+				) : (
+					<RestrictedAccess notice="You must be logged in to update profile details." />
+				)}
 			</Route>
+			<Redirect to="/" />
 		</Switch>
 	);
 };
