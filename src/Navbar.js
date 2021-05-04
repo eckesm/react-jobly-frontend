@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+// import {Link,NavLink} from 'react-router-dom'
 import {
 	Collapse,
 	Navbar,
@@ -14,11 +15,11 @@ import './Navbar.css';
 const JoblyNavbar = ({ logoutUser }) => {
 	const [ isOpen, setIsOpen ] = useState(false);
 	const toggle = () => setIsOpen(!isOpen);
-	const currentUser = useContext(CurrentUserContext);
+	const {currentUser} = useContext(CurrentUserContext);
 
 	return (
 		<div>
-			<Navbar color="dark" dark expand="md">
+			<Navbar color="light" light expand="md">
 				<NavbarBrand href="/">Jobly</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>

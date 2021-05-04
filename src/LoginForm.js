@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input, ListGroup, ListGroupItem } from 'reactstrap';
+import { useHistory } from 'react-router-dom';
+import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import './LoginForm.css';
 
 const LoginForm = ({ loginUser }) => {
@@ -10,7 +10,8 @@ const LoginForm = ({ loginUser }) => {
 	};
 	const [ formData, setFormData ] = useState(initialState);
 	const [ errorMessages, setErrorMessages ] = useState(null);
-	const [ isLoggedIn, setIsLoggedIn ] = useState(null);
+	const history = useHistory();
+
 	const handleChange = e => {
 		const { name, value } = e.target;
 		setFormData(data => ({
@@ -22,29 +23,24 @@ const LoginForm = ({ loginUser }) => {
 		e.preventDefault();
 		let res = await loginUser(formData.username, formData.password);
 		if (res.status === 'success') {
-			setErrorMessages(null);
-			setFormData(initialState);
-			setIsLoggedIn(true);
+			history.push('/');
 		}
 		else {
 			setErrorMessages(res.messages);
 		}
 	}
 
-	if (isLoggedIn) {
-		return <Redirect to="/" />;
-	}
 	return (
 		<Form className="LoginForm" onSubmit={handleSubmit}>
 			<h1>Login</h1>
 			{errorMessages && (
-				<ListGroup>
+				<div>
 					{errorMessages.map((error, i) => (
-						<ListGroupItem key={i} className="LoginForm-errorMessage">
+						<Alert color="danger" key={i}>
 							{error}
-						</ListGroupItem>
+						</Alert>
 					))}
-				</ListGroup>
+				</div>
 			)}
 			<FormGroup className="LoginForm-formGroup">
 				<Label className="LoginForm-label" for="username">
@@ -57,6 +53,7 @@ const LoginForm = ({ loginUser }) => {
 					id="username"
 					value={formData.username}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<FormGroup className="LoginForm-formGroup">
@@ -70,6 +67,7 @@ const LoginForm = ({ loginUser }) => {
 					id="password"
 					value={formData.password}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<Button>Submit</Button>

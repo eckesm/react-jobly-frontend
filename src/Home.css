@@ -1,7 +1,9 @@
 .Home {
-	margin: 50px;
+	margin: auto;
+	margin-top: 50px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 	background-color: snow;
 	border: solid 1px black;
+	width: 500px;
 }

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { Button, Form, FormGroup, Label, Input, ListGroup, ListGroupItem } from 'reactstrap';
+import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import JoblyApi from './api';
 import CurrentUserContext from './CurrentUserContext';
 import './Profile.css';
 
 const Profile = () => {
-	let currentUser = useContext(CurrentUserContext);
+	let { currentUser } = useContext(CurrentUserContext);
 	let initialState = {
 		firstName : currentUser.firstName,
 		lastName  : currentUser.lastName,
@@ -24,16 +24,15 @@ const Profile = () => {
 	};
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let res = await JoblyApi.updateUser(
-			currentUser.username,
-			formData.firstName,
-			formData.lastName,
-			formData.email,
-			formData.password
-		);
-		if (res.status === 'success') {
-			setErrorMessages(null);
-			currentUser = res.user;
+		try {
+			let user = await JoblyApi.updateUser(
+				currentUser.username,
+				formData.firstName,
+				formData.lastName,
+				formData.email,
+				formData.password
+			);
+			currentUser = user;
 			initialState = {
 				firstName : currentUser.firstName,
 				lastName  : currentUser.lastName,
@@ -41,26 +40,26 @@ const Profile = () => {
 				password  : ''
 			};
 			setFormData(initialState);
+			setErrorMessages(null);
 			setSuccessMessage(`${currentUser.username} updated successfully!`);
-		}
-		else {
-			setErrorMessages(res.messages);
+		} catch (e) {
 			setSuccessMessage(null);
+			setErrorMessages(e);
 		}
 	}
 	return (
 		<Form className="Profile" onSubmit={handleSubmit}>
 			<h1>Profile</h1>
 			{errorMessages && (
-				<ListGroup>
+				<div>
 					{errorMessages.map((error, i) => (
-						<ListGroupItem key={i} className="Profile-errorMessage">
+						<Alert color="danger" key={i}>
 							{error}
-						</ListGroupItem>
+						</Alert>
 					))}
-				</ListGroup>
+				</div>
 			)}
-			{successMessage && <p className="Profile-successMessage">{successMessage}</p>}
+			{successMessage && <Alert color="success">{successMessage}</Alert>}
 			<FormGroup className="Profile-formGroup">
 				<Label className="Profile-label" for="firstName">
 					First Name
@@ -72,6 +71,7 @@ const Profile = () => {
 					id="firstName"
 					value={formData.firstName}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<FormGroup className="Profile-formGroup">
@@ -85,6 +85,7 @@ const Profile = () => {
 					id="lastName"
 					value={formData.lastName}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<FormGroup className="Profile-formGroup">
@@ -98,6 +99,7 @@ const Profile = () => {
 					id="email"
 					value={formData.email}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<FormGroup className="Profile-formGroup">
@@ -111,6 +113,7 @@ const Profile = () => {
 					id="password"
 					value={formData.password}
 					onChange={handleChange}
+					required
 				/>
 			</FormGroup>
 			<Button>Save Changes</Button>

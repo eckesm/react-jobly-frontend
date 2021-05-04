@@ -66,34 +66,14 @@ class JoblyApi {
 
 	/** Attempt login user. */
 	static async loginUser(username, password) {
-		try {
-			let res = await this.request('auth/token', { username, password }, 'post');
-			return {
-				status : 'success',
-				token  : res.token
-			};
-		} catch (e) {
-			return {
-				status   : 'error',
-				messages : e
-			};
-		}
+		let res = await this.request('auth/token', { username, password }, 'post');
+		return res.token;
 	}
 
 	/** Attempt register user. */
 	static async registerUser(username, password, firstName, lastName, email) {
-		try {
-			let res = await this.request('auth/register', { username, password, firstName, lastName, email }, 'post');
-			return {
-				status : 'success',
-				token  : res.token
-			};
-		} catch (e) {
-			return {
-				status   : 'error',
-				messages : e
-			};
-		}
+		let res = await this.request('auth/register', { username, password, firstName, lastName, email }, 'post');
+		return res.token;
 	}
 
 	/** Get user information. */
@@ -104,18 +84,8 @@ class JoblyApi {
 
 	/** Update user information. */
 	static async updateUser(username, firstName, lastName, email, password) {
-		try {
-			let res = await this.request(`users/${username}`, { firstName, lastName, email, password }, 'patch');
-			return {
-				status : 'success',
-				user   : res.user
-			};
-		} catch (e) {
-			return {
-				status   : 'error',
-				messages : e
-			};
-		}
+		let res = await this.request(`users/${username}`, { firstName, lastName, email, password }, 'patch');
+		return res.user;
 	}
 
 	/** Apply for job. */

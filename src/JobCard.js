@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardSubtitle, CardTitle, List } from 'reactstrap';
 import ApplyButton from './ApplyButton';
+import CurrentUserContext from './CurrentUserContext';
 
-const JobCard = ({ id, title, companyHandle, companyName, equity, salary,isApplied,applyToJob }) => {	
+const JobCard = ({ id, title, companyHandle, companyName, equity, salary, isApplied }) => {
+	const { applyToJob } = useContext(CurrentUserContext);
 
 	return (
 		<Card>

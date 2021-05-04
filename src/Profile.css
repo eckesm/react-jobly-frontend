@@ -20,11 +20,3 @@
 	margin: 0px;
 }
 
-.Profile-errorMessage {
-	color: red;
-	font-style: italic;
-}
-
-.Profile-successMessage {
-	font-weight: bold;
-}

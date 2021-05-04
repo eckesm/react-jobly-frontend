@@ -19,8 +19,3 @@
 .LoginForm-input {
 	margin: 0px;
 }
-
-.LoginForm-errorMessage {
-	color: red;
-	font-style: italic;
-}

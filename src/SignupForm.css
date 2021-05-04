@@ -19,8 +19,3 @@
 .SignupForm-input {
 	margin: 0px;
 }
-
-.SignupForm-errorMessage {
-	color: red;
-	font-style: italic;
-}
